@@ -1,10 +1,6 @@
 <?php
 class Database
 {
-    private string $host = "localhost";
-    private string $dbname = "db_kasir_oop";
-    private string $username = "root";
-    private string $password = "";
     private ?PDO $conn = null;
 
     public function getConnection(): PDO
@@ -13,11 +9,18 @@ class Database
             return $this->conn;
         }
 
+        // Ambil dari Environment Variables (Railway) atau fallback ke localhost
+        $host     = getenv('MYSQLHOST') ?: "localhost";
+        $port     = getenv('MYSQLPORT') ?: "3306";
+        $dbname   = getenv('MYSQLDATABASE') ?: "db_kasir_oop";
+        $username = getenv('MYSQLUSER') ?: "root";
+        $password = getenv('MYSQLPASSWORD') ?: "";
+
         try {
             $this->conn = new PDO(
-                "mysql:host={$this->host};dbname={$this->dbname};charset=utf8mb4",
-                $this->username,
-                $this->password
+                "mysql:host={$host};port={$port};dbname={$dbname};charset=utf8mb4",
+                $username,
+                $password
             );
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
