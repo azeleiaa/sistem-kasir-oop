@@ -1,4 +1,5 @@
 <?php
+// Menyiapkan data penjualan dan ringkasan sesuai filter
 $keyword     = trim($_GET['keyword'] ?? '');
 $tanggalAwal = trim($_GET['tanggal_awal'] ?? '');
 $tanggalAkhir = trim($_GET['tanggal_akhir'] ?? '');
@@ -21,7 +22,7 @@ $ringkasan     = $penjualanModel->getRingkasan($keyword, $tanggalAwal, $tanggalA
     </div>
 </div>
 
-<!-- SUMMARY CARDS -->
+<!-- Kartu ringkasan penjualan -->
 <div class="row g-3 mb-4">
     <div class="col-md-6">
         <div class="stat-card stat-indigo">
@@ -46,7 +47,7 @@ $ringkasan     = $penjualanModel->getRingkasan($keyword, $tanggalAwal, $tanggalA
     </div>
 </div>
 
-<!-- TABLE CARD -->
+<!-- Tabel daftar penjualan -->
 <div class="card">
     <div class="card-header">
         <form class="d-flex flex-wrap gap-2 filter-area" method="get">

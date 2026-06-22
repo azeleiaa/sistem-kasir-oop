@@ -1,4 +1,5 @@
 <?php
+// Menyiapkan ringkasan dashboard dari berbagai model
 $totalKategori  = $kategoriModel->countAll();
 $totalSupplier  = $supplierModel->countAll();
 $totalProduk    = $produkModel->countAll();
@@ -23,7 +24,7 @@ $chartCounts = array_map(fn($r) => (int) $r['jumlah'], $salesChart);
     </a>
 </div>
 
-<!-- STAT CARDS -->
+<!-- Kartu ringkasan utama -->
 <div class="row g-3 mb-4">
     <div class="col-6 col-md-4 col-xl-2">
         <div class="stat-card stat-indigo">
@@ -82,9 +83,9 @@ $chartCounts = array_map(fn($r) => (int) $r['jumlah'], $salesChart);
     </div>
 </div>
 
-<!-- CHART + RECENT TRANSACTIONS -->
+<!-- Grafik dan transaksi terbaru -->
 <div class="row g-3">
-    <!-- CHART -->
+    <!-- Grafik penjualan -->
     <div class="col-lg-7">
         <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -97,7 +98,7 @@ $chartCounts = array_map(fn($r) => (int) $r['jumlah'], $salesChart);
         </div>
     </div>
 
-    <!-- RECENT TRANSACTIONS -->
+    <!-- Transaksi terbaru -->
     <div class="col-lg-5">
         <div class="card h-100">
             <div class="card-header d-flex justify-content-between align-items-center">

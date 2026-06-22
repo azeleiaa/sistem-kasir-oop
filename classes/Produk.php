@@ -1,14 +1,17 @@
 <?php
+// Model untuk mengelola data produk
 class Produk
 {
     private PDO $conn;
     private string $table = "produk";
 
+    // Menyimpan koneksi database untuk operasi produk
     public function __construct(PDO $db)
     {
         $this->conn = $db;
     }
 
+    // Membuat kode produk otomatis dengan urutan harian
     public function generateKode(): string
     {
         $prefix = "PRD" . date('ymd');
@@ -23,6 +26,7 @@ class Produk
         return $prefix . str_pad((string) $next, 3, '0', STR_PAD_LEFT);
     }
 
+    // Mengambil daftar produk dengan filter pencarian dan kategori
     public function getAll(string $keyword = "", string $idKategori = ""): array
     {
         $sql = "SELECT p.*, k.nama_kategori, s.nama_supplier
@@ -51,6 +55,7 @@ class Produk
         return $stmt->fetchAll();
     }
 
+    // Mengambil produk aktif yang stoknya masih tersedia untuk transaksi
     public function getOptions(): array
     {
         $stmt = $this->conn->prepare(
@@ -63,6 +68,7 @@ class Produk
         return $stmt->fetchAll();
     }
 
+    // Mengambil detail satu produk berdasarkan ID
     public function getById(int $id): ?array
     {
         $sql = "SELECT p.*, k.nama_kategori, s.nama_supplier
@@ -76,6 +82,7 @@ class Produk
         return $result ?: null;
     }
 
+    // Menyimpan data produk baru
     public function insert(array $data): bool
     {
         $sql = "INSERT INTO {$this->table}
@@ -95,6 +102,7 @@ class Produk
         ]);
     }
 
+    // Memperbarui data produk yang sudah ada
     public function update(int $id, array $data): bool
     {
         $sql = "UPDATE {$this->table}
@@ -119,18 +127,21 @@ class Produk
         ]);
     }
 
+    // Menghapus produk berdasarkan ID
     public function delete(int $id): bool
     {
         $stmt = $this->conn->prepare("DELETE FROM {$this->table} WHERE id = :id");
         return $stmt->execute([':id' => $id]);
     }
 
+    // Menghitung total seluruh produk
     public function countAll(): int
     {
         $stmt = $this->conn->query("SELECT COUNT(*) FROM {$this->table}");
         return (int) $stmt->fetchColumn();
     }
 
+    // Menghitung jumlah produk dengan stok di bawah atau sama dengan batas
     public function countLowStock(int $limit = 5): int
     {
         $stmt = $this->conn->prepare("SELECT COUNT(*) FROM {$this->table} WHERE stok <= :limit");

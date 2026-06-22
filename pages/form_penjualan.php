@@ -1,4 +1,5 @@
 <?php
+// Menyiapkan data pilihan produk dan nomor faktur baru
 $produkOptions = $produkModel->getOptions();
 $noFaktur = $penjualanModel->generateNoFaktur();
 ?>
@@ -21,7 +22,7 @@ $noFaktur = $penjualanModel->generateNoFaktur();
 <?php endif; ?>
 
 <form method="post" action="proses_penjualan.php" id="formPenjualan">
-    <!-- INFO TRANSAKSI -->
+    <!-- Informasi transaksi -->
     <div class="card mb-3">
         <div class="card-header accent">
             <i class="bi bi-receipt-cutoff me-2"></i>Informasi Transaksi
@@ -44,7 +45,7 @@ $noFaktur = $penjualanModel->generateNoFaktur();
         </div>
     </div>
 
-    <!-- ITEM BELANJA -->
+    <!-- Item belanja -->
     <div class="card mb-3">
         <div class="card-header d-flex justify-content-between align-items-center">
             <span><i class="bi bi-basket me-2" style="color:var(--accent)"></i>Item Belanja</span>
@@ -95,7 +96,7 @@ $noFaktur = $penjualanModel->generateNoFaktur();
         </div>
     </div>
 
-    <!-- panel ringkasan di kanan bawah -->
+    <!-- Panel ringkasan di kanan bawah -->
     <div class="row g-3 justify-content-end">
         <div class="col-lg-5">
             <div class="card">
@@ -103,13 +104,13 @@ $noFaktur = $penjualanModel->generateNoFaktur();
                     <i class="bi bi-calculator me-2" style="color:var(--accent)"></i>Ringkasan Pembayaran
                 </div>
                 <div class="card-body">
-                    <!-- total keseluruhan belanja -->
+                    <!-- Total keseluruhan belanja -->
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-3" style="border-bottom:1px solid var(--border-color)">
                         <span style="color:var(--text-muted);font-weight:600;font-size:13px">TOTAL BELANJA</span>
                         <span class="fw-bold" id="grandTotal" style="font-size:22px;color:var(--text-main)">Rp 0</span>
                     </div>
 
-                    <!-- pilih cara bayar: tunai atau QRIS -->
+                    <!-- Pilih cara bayar tunai atau QRIS -->
                     <div class="mb-3">
                         <label class="form-label">Metode Pembayaran</label>
                         <input type="hidden" name="metode_pembayaran" id="metodePembayaran" value="Tunai">
@@ -129,7 +130,7 @@ $noFaktur = $penjualanModel->generateNoFaktur();
                         </div>
                     </div>
 
-                    <!-- tampil kalau bayar tunai -->
+                    <!-- Tampil kalau bayar tunai -->
                     <div id="sectionTunai">
                         <div class="mb-3">
                             <label class="form-label">Bayar <span class="text-danger">*</span></label>
@@ -144,7 +145,7 @@ $noFaktur = $penjualanModel->generateNoFaktur();
                         </div>
                     </div>
 
-                    <!-- tampil kalau pilih QRIS -->
+                    <!-- Tampil kalau pilih QRIS -->
                     <div id="sectionQris" style="display:none">
                         <div class="text-center mb-4 p-3" style="background:#f8fafc;border-radius:12px;border:1px dashed var(--border-color)">
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=KOYTASHOP-QRIS-PAYMENT&color=6366f1&bgcolor=ffffff"

@@ -1,4 +1,5 @@
 <?php
+// Menangani penghapusan produk
 session_start();
 
 require_once "helpers.php";
@@ -16,6 +17,7 @@ if ($id <= 0) {
 }
 
 try {
+    // Hapus produk berdasarkan ID yang dipilih
     $produkModel->delete($id);
     setFlash('success', 'Data produk berhasil dihapus.');
 } catch (PDOException $e) {

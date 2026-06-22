@@ -1,4 +1,5 @@
 <?php
+// Ambil detail penjualan berdasarkan ID untuk ditampilkan
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $penjualan = $id > 0 ? $penjualanModel->getById($id) : null;
 
@@ -25,7 +26,7 @@ $detail = $penjualanModel->getDetail($id);
     </div>
 </div>
 
-<!-- INFO CARDS -->
+<!-- Kartu informasi transaksi -->
 <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
         <div class="card">
@@ -64,7 +65,7 @@ $detail = $penjualanModel->getDetail($id);
     </div>
 </div>
 
-<!-- ITEMS TABLE -->
+<!-- Tabel item transaksi -->
 <div class="card mb-3">
     <div class="card-header">
         <i class="bi bi-list-ul me-2" style="color:var(--accent)"></i>Item Pembelian

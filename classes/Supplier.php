@@ -1,14 +1,17 @@
 <?php
+// Model untuk mengelola data supplier
 class Supplier
 {
     private PDO $conn;
     private string $table = "supplier";
 
+    // Menyimpan koneksi database untuk operasi supplier
     public function __construct(PDO $db)
     {
         $this->conn = $db;
     }
 
+    // Mengambil semua data supplier atau hasil pencarian
     public function getAll(string $keyword = ""): array
     {
         if ($keyword !== "") {
@@ -27,6 +30,7 @@ class Supplier
         return $stmt->fetchAll();
     }
 
+    // Mengambil satu supplier berdasarkan ID
     public function getById(int $id): ?array
     {
         $stmt = $this->conn->prepare("SELECT * FROM {$this->table} WHERE id = :id LIMIT 1");
@@ -35,6 +39,7 @@ class Supplier
         return $result ?: null;
     }
 
+    // Menyimpan supplier baru
     public function insert(array $data): bool
     {
         $sql = "INSERT INTO {$this->table} (nama_supplier, telepon, alamat)
@@ -47,6 +52,7 @@ class Supplier
         ]);
     }
 
+    // Memperbarui data supplier
     public function update(int $id, array $data): bool
     {
         $sql = "UPDATE {$this->table}
@@ -61,12 +67,14 @@ class Supplier
         ]);
     }
 
+    // Menghapus supplier berdasarkan ID
     public function delete(int $id): bool
     {
         $stmt = $this->conn->prepare("DELETE FROM {$this->table} WHERE id = :id");
         return $stmt->execute([':id' => $id]);
     }
 
+    // Menghitung total seluruh supplier
     public function countAll(): int
     {
         $stmt = $this->conn->query("SELECT COUNT(*) FROM {$this->table}");

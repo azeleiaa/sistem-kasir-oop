@@ -1,4 +1,5 @@
 <?php
+// Menangani simpan dan update data kategori
 session_start();
 
 require_once "helpers.php";
@@ -14,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirect('index.php?page=data_kategori');
 }
 
+// Ambil input form lalu bersihkan spasi di awal dan akhir
 $id = trim($_POST['id'] ?? '');
 $namaKategori = trim($_POST['nama_kategori'] ?? '');
 $deskripsi = trim($_POST['deskripsi'] ?? '');
@@ -29,6 +31,7 @@ $data = [
 ];
 
 try {
+    // Jika id kosong berarti data baru, kalau ada berarti update
     if ($id === '') {
         $kategoriModel->insert($data);
         setFlash('success', 'Data kategori berhasil ditambahkan.');

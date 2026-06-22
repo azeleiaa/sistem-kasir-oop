@@ -1,13 +1,16 @@
 <?php
+// Model untuk transaksi penjualan dan detailnya
 class Penjualan
 {
     private PDO $conn;
 
+    // Menyimpan koneksi database untuk proses transaksi
     public function __construct(PDO $db)
     {
         $this->conn = $db;
     }
 
+    // Membuat nomor faktur otomatis berdasarkan tanggal hari ini
     public function generateNoFaktur(): string
     {
         $prefix = "TRX" . date('Ymd') . "-";
@@ -22,6 +25,7 @@ class Penjualan
         return $prefix . str_pad((string) $next, 3, '0', STR_PAD_LEFT);
     }
 
+    // Menyimpan transaksi penjualan beserta detail item dalam satu transaksi database
     public function create(array $data, array $items): int
     {
         $this->conn->beginTransaction();
@@ -38,6 +42,7 @@ class Penjualan
                     throw new Exception("Produk dan jumlah wajib diisi dengan benar.");
                 }
 
+                // Mengunci stok produk agar tidak berubah selama transaksi diproses
                 $stmtProduk = $this->conn->prepare(
                     "SELECT id, nama_produk, harga_jual, stok
                      FROM produk
@@ -131,6 +136,7 @@ class Penjualan
         }
     }
 
+    // Mengambil daftar transaksi dengan filter pencarian dan tanggal
     public function getAll(string $keyword = "", string $tanggalAwal = "", string $tanggalAkhir = ""): array
     {
         $sql = "SELECT pj.*, COALESCE(dt.jumlah_item, 0) AS jumlah_item
@@ -164,6 +170,7 @@ class Penjualan
         return $stmt->fetchAll();
     }
 
+    // Mengambil satu transaksi berdasarkan ID
     public function getById(int $id): ?array
     {
         $stmt = $this->conn->prepare("SELECT * FROM penjualan WHERE id = :id LIMIT 1");
@@ -172,6 +179,7 @@ class Penjualan
         return $result ?: null;
     }
 
+    // Mengambil detail item untuk satu transaksi
     public function getDetail(int $idPenjualan): array
     {
         $sql = "SELECT dp.*, p.kode_produk, p.nama_produk
@@ -184,6 +192,7 @@ class Penjualan
         return $stmt->fetchAll();
     }
 
+    // Mengambil ringkasan transaksi dan pendapatan untuk filter tertentu
     public function getRingkasan(string $keyword = "", string $tanggalAwal = "", string $tanggalAkhir = ""): array
     {
         $sql = "SELECT COUNT(*) AS jumlah_transaksi, COALESCE(SUM(total), 0) AS total_pendapatan
@@ -211,18 +220,21 @@ class Penjualan
         return $stmt->fetch();
     }
 
+    // Menghitung total seluruh transaksi
     public function countAll(): int
     {
         $stmt = $this->conn->query("SELECT COUNT(*) FROM penjualan");
         return (int) $stmt->fetchColumn();
     }
 
+    // Menghitung total pendapatan seluruh transaksi
     public function totalPendapatan(): float
     {
         $stmt = $this->conn->query("SELECT COALESCE(SUM(total), 0) FROM penjualan");
         return (float) $stmt->fetchColumn();
     }
 
+    // Mengambil transaksi terbaru sesuai batas limit
     public function latest(int $limit = 5): array
     {
         $stmt = $this->conn->prepare("SELECT * FROM penjualan ORDER BY id DESC LIMIT :limit");
@@ -231,6 +243,7 @@ class Penjualan
         return $stmt->fetchAll();
     }
 
+    // Mengambil rekap penjualan 7 hari terakhir untuk grafik dashboard
     public function getSalesLast7Days(): array
     {
         $sql = "SELECT
@@ -244,7 +257,7 @@ class Penjualan
         $stmt = $this->conn->query($sql);
         $rows = $stmt->fetchAll();
 
-        // Fill all 7 days, including those with no sales
+        // Isi semua 7 hari termasuk yang belum ada penjualan
         $result = [];
         for ($i = 6; $i >= 0; $i--) {
             $date = date('Y-m-d', strtotime("-{$i} days"));

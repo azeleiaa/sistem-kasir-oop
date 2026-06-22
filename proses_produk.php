@@ -1,4 +1,5 @@
 <?php
+// Menangani simpan dan update data produk
 session_start();
 
 require_once "helpers.php";
@@ -14,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirect('index.php?page=data_produk');
 }
 
+// Ambil input form lalu normalisasi nilainya
 $id = trim($_POST['id'] ?? '');
 $kodeProduk = trim($_POST['kode_produk'] ?? '');
 $namaProduk = trim($_POST['nama_produk'] ?? '');
@@ -26,6 +28,7 @@ $status = trim($_POST['status'] ?? 'Aktif');
 $redirectBack = 'index.php?page=data_produk' . ($id !== '' ? '&id=' . (int) $id : '');
 
 if ($kodeProduk === '') {
+    // Kode dibuat otomatis jika tidak dikirim dari form
     $kodeProduk = $produkModel->generateKode();
 }
 
@@ -56,6 +59,7 @@ $data = [
 ];
 
 try {
+    // Simpan data baru atau update data lama berdasarkan isi id
     if ($id === '') {
         $produkModel->insert($data);
         setFlash('success', 'Data produk berhasil ditambahkan.');

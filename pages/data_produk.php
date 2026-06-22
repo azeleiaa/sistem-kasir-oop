@@ -1,4 +1,5 @@
 <?php
+// Menyiapkan data produk, kategori, dan supplier untuk tampilan
 $keyword       = trim($_GET['keyword'] ?? '');
 $filterKategori = trim($_GET['id_kategori'] ?? '');
 $editId        = isset($_GET['id']) ? (int) $_GET['id'] : 0;
@@ -27,7 +28,7 @@ $dataProduk = $produkModel->getAll($keyword, $filterKategori);
 </div>
 
 <div class="row g-3">
-    <!-- FORM -->
+    <!-- Form produk -->
     <div class="col-xl-4">
         <div class="card">
             <div class="card-header accent">
@@ -119,7 +120,7 @@ $dataProduk = $produkModel->getAll($keyword, $filterKategori);
         </div>
     </div>
 
-    <!-- TABLE -->
+    <!-- Tabel produk -->
     <div class="col-xl-8">
         <div class="card">
             <div class="card-header">

@@ -1,4 +1,5 @@
 <?php
+// File utama yang memuat semua halaman aplikasi
 session_start();
 
 require_once "helpers.php";
@@ -16,6 +17,7 @@ $supplierModel = new Supplier($db);
 $produkModel = new Produk($db);
 $penjualanModel = new Penjualan($db);
 
+// Tentukan halaman aktif berdasarkan parameter page
 $page = $_GET['page'] ?? 'dashboard';
 $allowedPages = [
     'dashboard'        => 'pages/dashboard.php',
@@ -27,6 +29,7 @@ $allowedPages = [
     'detail_penjualan' => 'pages/detail_penjualan.php',
 ];
 
+// Judul halaman yang ditampilkan di tab browser dan header
 $pageTitles = [
     'dashboard'        => 'Dashboard',
     'data_kategori'    => 'Data Kategori',
@@ -52,9 +55,9 @@ $currentTitle = $pageTitles[$page] ?? 'Sistem Kasir';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        /* =============================================
-           DESIGN SYSTEM — CSS CUSTOM PROPERTIES
-        ============================================= */
+          /* =============================================
+              DESIGN SYSTEM — CSS CUSTOM PROPERTIES
+          ============================================= */
         :root {
             --sidebar-bg: #0f172a;
             --sidebar-hover: rgba(99, 102, 241, 0.15);
@@ -91,7 +94,7 @@ $currentTitle = $pageTitles[$page] ?? 'Sistem Kasir';
             --transition:    all .2s ease;
         }
 
-        /* reset dasar & font */
+        /* Reset dasar dan font */
         *, *::before, *::after { box-sizing: border-box; }
 
         body {
@@ -102,7 +105,7 @@ $currentTitle = $pageTitles[$page] ?? 'Sistem Kasir';
             font-size: 14px;
         }
 
-        /* navbar atas yang sticky */
+        /* Navbar atas yang sticky */
         .topbar {
             position: sticky;
             top: 0;
@@ -198,13 +201,13 @@ $currentTitle = $pageTitles[$page] ?? 'Sistem Kasir';
             white-space: nowrap;
         }
 
-        /* wrapper utama yang membungkus sidebar + konten */
+        /* Wrapper utama yang membungkus sidebar dan konten */
         .app-shell {
             display: flex;
             min-height: calc(100vh - 64px);
         }
 
-        /* sidebar navigasi kiri */
+        /* Sidebar navigasi kiri */
         .sidebar {
             width: var(--sidebar-width);
             background: var(--sidebar-bg);

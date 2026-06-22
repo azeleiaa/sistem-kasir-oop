@@ -1,4 +1,5 @@
 <?php
+// Menangani penghapusan kategori
 session_start();
 
 require_once "helpers.php";
@@ -16,6 +17,7 @@ if ($id <= 0) {
 }
 
 try {
+    // Hapus kategori berdasarkan ID yang dipilih
     $kategoriModel->delete($id);
     setFlash('success', 'Data kategori berhasil dihapus.');
 } catch (PDOException $e) {

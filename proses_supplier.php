@@ -1,4 +1,5 @@
 <?php
+// Menangani simpan dan update data supplier
 session_start();
 
 require_once "helpers.php";
@@ -14,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirect('index.php?page=data_supplier');
 }
 
+// Ambil input form supplier
 $id = trim($_POST['id'] ?? '');
 $namaSupplier = trim($_POST['nama_supplier'] ?? '');
 $telepon = trim($_POST['telepon'] ?? '');
@@ -36,6 +38,7 @@ $data = [
 ];
 
 try {
+    // Tentukan apakah data baru atau update
     if ($id === '') {
         $supplierModel->insert($data);
         setFlash('success', 'Data supplier berhasil ditambahkan.');

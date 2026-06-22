@@ -1,4 +1,5 @@
 <?php
+// Menyiapkan data kategori untuk form dan tabel
 $keyword = trim($_GET['keyword'] ?? '');
 $editId  = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $formData = ['id' => '', 'nama_kategori' => '', 'deskripsi' => ''];
@@ -19,7 +20,7 @@ $dataKategori = $kategoriModel->getAll($keyword);
 </div>
 
 <div class="row g-3">
-    <!-- FORM -->
+    <!-- Form kategori -->
     <div class="col-lg-4">
         <div class="card">
             <div class="card-header accent">
@@ -52,7 +53,7 @@ $dataKategori = $kategoriModel->getAll($keyword);
         </div>
     </div>
 
-    <!-- TABLE -->
+    <!-- Tabel kategori -->
     <div class="col-lg-8">
         <div class="card">
             <div class="card-header">

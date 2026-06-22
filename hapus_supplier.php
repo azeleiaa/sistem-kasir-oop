@@ -1,4 +1,5 @@
 <?php
+// Menangani penghapusan supplier
 session_start();
 
 require_once "helpers.php";
@@ -16,6 +17,7 @@ if ($id <= 0) {
 }
 
 try {
+    // Hapus supplier berdasarkan ID yang dipilih
     $supplierModel->delete($id);
     setFlash('success', 'Data supplier berhasil dihapus.');
 } catch (PDOException $e) {

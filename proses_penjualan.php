@@ -1,4 +1,5 @@
 <?php
+// Menangani penyimpanan transaksi penjualan
 session_start();
 
 require_once "helpers.php";
@@ -14,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirect('index.php?page=data_penjualan');
 }
 
+// Ambil data transaksi dari form
 $tanggal        = trim($_POST['tanggal'] ?? '');
 $namaPelanggan  = trim($_POST['nama_pelanggan'] ?? 'Umum');
 $metodePembayaran = trim($_POST['metode_pembayaran'] ?? 'Tunai');
@@ -34,7 +36,7 @@ if ($namaPelanggan === '') {
     $namaPelanggan = 'Umum';
 }
 
-// kalau QRIS, nilai bayar akan di-set server-side jadi tidak perlu validasi nominal di sini
+// Jika QRIS, nilai bayar akan di-set server-side jadi tidak perlu validasi nominal di sini
 if ($metodePembayaran === 'QRIS') {
     $bayar = PHP_INT_MAX;
 } elseif ($bayar <= 0) {
@@ -42,6 +44,7 @@ if ($metodePembayaran === 'QRIS') {
     redirect('index.php?page=form_penjualan');
 }
 
+// Gabungkan item dengan produk yang sama agar qty menjadi satu
 $itemsMap = [];
 foreach ($produkList as $index => $idProduk) {
     $idProduk = (int) $idProduk;
@@ -63,6 +66,7 @@ if (empty($itemsMap)) {
     redirect('index.php?page=form_penjualan');
 }
 
+// Data utama transaksi yang akan disimpan
 $data = [
     'tanggal'             => $tanggal,
     'nama_pelanggan'      => $namaPelanggan,
@@ -71,6 +75,7 @@ $data = [
 ];
 
 try {
+    // Simpan transaksi lalu arahkan ke halaman detail
     $idPenjualan = $penjualanModel->create($data, array_values($itemsMap));
     setFlash('success', 'Transaksi penjualan berhasil disimpan.');
     redirect('index.php?page=detail_penjualan&id=' . $idPenjualan);
