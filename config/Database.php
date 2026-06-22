@@ -9,12 +9,11 @@ class Database
             return $this->conn;
         }
 
-        // Ambil dari Environment Variables (Railway) atau fallback ke localhost
-        $host     = getenv('MYSQLHOST') ?: "localhost";
-        $port     = getenv('MYSQLPORT') ?: "3306";
-        $dbname   = getenv('MYSQLDATABASE') ?: "db_kasir_oop";
-        $username = getenv('MYSQLUSER') ?: "root";
-        $password = getenv('MYSQLPASSWORD') ?: "";
+        $host     = "localhost";
+        $port     = "3306";
+        $dbname   = "db_kasir_oop";
+        $username = "root";
+        $password = "";
 
         try {
             $this->conn = new PDO(

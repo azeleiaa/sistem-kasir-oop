@@ -75,4 +75,5 @@ private string $password = "";
 
 ## Catatan
 
-Bootstrap dan Bootstrap Icons digunakan melalui CDN, jadi tampilan paling rapi saat perangkat terhubung ke internet.
+- Aplikasi ini dirancang khusus untuk dijalankan di lingkungan lokal (seperti XAMPP atau Laragon) dan tidak memerlukan konfigurasi file tambahan untuk cloud hosting (seperti Railway, Heroku, dll).
+- Bootstrap dan Bootstrap Icons digunakan melalui CDN, jadi tampilan paling rapi saat perangkat terhubung ke internet.
